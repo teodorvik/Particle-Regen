@@ -4,7 +4,7 @@ SIZE = 10;
 POS_DISTANCE = 0.07;
 TIME_STEP = 0.01;
 gravity = [0 -9.82];
-
+radius = 0.03;
 
 [x y] = meshgrid(0:POS_DISTANCE:(SIZE-1)*POS_DISTANCE, 0:POS_DISTANCE:(SIZE-1)*POS_DISTANCE);
 %x = randi(10, [10, 10]);
@@ -22,26 +22,29 @@ untouchedParticles = [x(:), y(:)];
 
 iterations = 500;
 
-particlesOnTheMove = untouchedParticles(1:10, :);
+%particlesOnTheMove = untouchedParticles(1:10, :);
 ind = [1:10];
 
 untouchedParticles(ind,:) = [];
 particlesOnTheMoveVelocity = zeros(length(untouchedParticles), 2);
+ballPos = [0,0];
+ballVelocity = [0.4, 0.4];
 % A = 1:10 ; % 1-D array
 % ind = [1 4 7] ; % indices to be removed
 % A(ind) = [] ; % remove
 
 % Main loop
-while true
+for i = 1:300
     %particleAcceleration;
     %particleVelocity = particleVelocity + TIME_STEP*particleAcceleration; 
     lengthUntouched = length(untouchedParticles);
     for i = 1:length(untouchedParticles)
-        if ( isTouched(untouchedParticles(i,:)) )
-            particlesOnTheMove = [particlesOnTheMove; untouchedParticles(i,:)];
+        if ( isTouched(untouchedParticles(i,:), ballPos, radius) )
             if lengthUntouched == length(untouchedParticles);
+                particlesOnTheMove = untouchedParticles(i,:);
                 remove = [i];
             else
+                particlesOnTheMove = [particlesOnTheMove; untouchedParticles(i,:)];
                 remove = [remove, i];
             end
         end
@@ -50,14 +53,15 @@ while true
     if lengthUntouched ~= length(untouchedParticles);
             untouchedParticles(remove,:) = [];
             particlesOnTheMoveVelocity = particlesOnTheMoveVelocity(1:length(particlesOnTheMove), :);
+            %particleAcceleration = zeros(length(particlesOnTheMove), 2);
     end
     
-    
-    particlesOnTheMoveVelocity = particlesOnTheMoveVelocity + ones(length(particlesOnTheMove), 1)*gravity;
+    particleAcceleration = particleAcceleration  + ones(length(particlesOnTheMoveVelocity), 1)*gravity;
+    particlesOnTheMoveVelocity = particlesOnTheMoveVelocity + ;
 
     plot(untouchedParticles, 'x');
     hold on;
-    plot(particlesOnTheMove, 'o');
+%    plot(particlesOnTheMove, 'o');
     hold off;
     pause(0.001)
 end

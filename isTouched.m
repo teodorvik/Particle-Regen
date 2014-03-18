@@ -1,6 +1,7 @@
-function [answer] = isTouched(A)
-
-    if ( A(1) > 0.8) 
+function [answer] = isTouched(particle, ball, radius)
+    
+    dist = abs(particle - ball);
+    if ( dist < radius) 
         answer = 1;
     else
         answer =  0;
