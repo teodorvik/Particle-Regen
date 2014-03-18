@@ -1,9 +1,0 @@
-function [answer] = isTouched(particle, ball)
-    
-    directionVector = particle - ball;
-    if ( particle < 0.8) 
-        answer = 1;
-    else
-        answer =  0;
-    end
-end

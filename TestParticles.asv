@@ -53,11 +53,11 @@ for i = 1:300
     if lengthUntouched ~= length(untouchedParticles);
             untouchedParticles(remove,:) = [];
             particlesOnTheMoveVelocity = particlesOnTheMoveVelocity(1:length(particlesOnTheMove), :);
-            particleAcceleration = zeros(length(particlesOnTheMove), 2);
+           
     end
-    
+
     particleAcceleration = particleAcceleration  + ones(length(particlesOnTheMoveVelocity), 1)*gravity;
-    particlesOnTheMoveVelocity = particlesOnTheMoveVelocity + ;
+    particlesOnTheMoveVelocity = particlesOnTheMoveVelocity + TIME_STEP*particleAcceleration;
 
     plot(untouchedParticles, 'x');
     hold on;
