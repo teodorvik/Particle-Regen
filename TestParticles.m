@@ -5,6 +5,8 @@ POS_DISTANCE = 0.07;
 TIME_STEP = 0.01;
 gravity = [0 -9.82];
 radius = 0.03;
+PARTICLES_ON_THE_MOVE = false;
+DONT_RETURN_HOME = true;
 
 [x y] = meshgrid(0:POS_DISTANCE:(SIZE-1)*POS_DISTANCE, 0:POS_DISTANCE:(SIZE-1)*POS_DISTANCE);
 particlePositions = [x(:), y(:)];
@@ -27,29 +29,19 @@ particlesOnTheMoveVelocity = [];
 
 % Main loop
 for i = 1:300
-%     for i = 1:length(untouchedParticles)
-%         if ( isTouched(untouchedParticles(i,:), ballPos, radius) )
-%             if lengthUntouched == length(untouchedParticles);
-%                 particlesOnTheMove = untouchedParticles(i,:);
-%                 remove = [i];
-%             else
-%                 particlesOnTheMove = [particlesOnTheMove; untouchedParticles(i,:)];
-%                 remove = [remove, i];
-%             end
-%         end
-%     end
-%     
-%     if lengthUntouched ~= length(ParticleSystem);
-%             untouchedParticles(remove,:) = [];
-%             particlesOnTheMoveVelocity = particlesOnTheMoveVelocity(1:length(particlesOnTheMove), :);
-%     end
-%     
-%     particleAcceleration = particleAcceleration  + ones(length(particlesOnTheMoveVelocity), 1)*gravity;
-%     particlesOnTheMoveVelocity = particlesOnTheMoveVelocity + TIME_STEP*particleAcceleration;
-% 
-%     plot(untouchedParticles, 'x');
-%     hold on;
-% %    plot(particlesOnTheMove, 'o');
-%     hold off;
-%     pause(0.001)
+    if (DONT_RETURN_HOME)
+        advanceParticle();
+        isTouched();
+    else
+        returnHome();
+    end
+    
+    
+    % Fortsätt att uppdatera bollen
+    % eller vänta på att bollen ska skickas
+    
+    % Krockar den ska det de få fart och flyga åt något håll
+    
+    drawParticleSystem();
+    
 end
