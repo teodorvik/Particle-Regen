@@ -33,8 +33,8 @@ ball.mass = 1;
 %% Main loop
 for i = 1:300
     if (DONT_RETURN_HOME)
-        advanceParticle();
-        isTouched();
+        ParticleSystem = advanceParticle(ParticleSystem, TIME_STEP);
+ %       isTouched();
     else
         ParticleSystem = returnHome(ParticleSystem, threshold, TIME_STEP);
     end

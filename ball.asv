@@ -1,7 +1,0 @@
-classdef object
-    properties
-        position;
-        velocity;
-        radius;
-    end
-end
