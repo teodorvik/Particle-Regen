@@ -1,8 +1,8 @@
-classdef particle
+classdef object
     properties
         position;
         velocity;
-        homePosition;
+        radius;
         mass;
     end
 end
