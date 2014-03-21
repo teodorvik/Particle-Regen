@@ -1,0 +1,11 @@
+function [] = drawBall(ball)
+    %plot(ball.position(1), ball.position(2), 'x');
+    for i = 1:30
+        x = ball.position(1) + ball.radius*cos((i/30)*2*pi);
+        y = ball.position(2) + ball.radius*sin((i/30)*2*pi);
+       temp = [x,y
+        plot(x,y,'-');
+    end
+    hold off;
+    %pdecirc(ball.position(1),ball.position(2),ball.radius)
+end

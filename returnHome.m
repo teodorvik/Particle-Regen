@@ -5,6 +5,7 @@ function [particleSystem] = returnHome(particleSystem, threshold, TIME_STEP)
         if(tempParticle.position ~= tempParticle.homePosition)
             direction = tempParticle.homePosition - tempParticle.position;
             dist = abs(direction);
+            dist = dist(1);
             
             if dist < threshold
                 particleSystem(i).position = particleSystem(i).homePosition;

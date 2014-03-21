@@ -1,4 +1,4 @@
-classdef object
+classdef ballClass
     properties
         position;
         velocity;

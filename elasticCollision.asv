@@ -1,26 +1,116 @@
-function[] = elasticCollision(particleSystem, ball)
+function[particleSystem] = elasticCollision(particleSystem, ball)
 
-
-    phi;
-    
-    % These variables will be the same for every collision
-	theta2 = atan2(ball.velocity);
+     % These variables will be the same for every collision
+	theta2 = atan(ball.velocity);
     v2 = ball.velocity;
 	m1 = particleSystem(1).mass;
     m2 = ball.mass;
     
 	for i = 1:length(particleSystem)
-        if ball.position == particleSystem(i).position
-            
-            theta1 = atan2(particleSystem(i).velocity);            
-            v1 = particleSystem(i).velocity;            
+        dist = abs(ball.position - particleSystem(i).position);  
+        if  dist < ball.radius 
+%             phi = atan(particleSystem(i).velocity);
+%             theta1 = atan(particleSystem(i).velocity);            
+%             v1 = particleSystem(i).velocity;            
+%             
+%             term1 =((v1*cos(theta1(1) - phi(1))*(m1 - m2) + 2*m2*v2*cos(theta2(1) - phi(1)))/(m1 + m2))*cos(phi(1)); 
+%             term2 = v1*sin(theta1(1) - phi(1))*cos(phi(1)+pi/2);
+%             
+%             vx =  term1 + term2;
+%             vy = ((v1*cos(theta1(1) - phi(1))*(m1 - m2) + 2*m2*v2*cos(theta2(1) - phi(1)))/(m1 + m2))*sin(phi(1)) + v1*sin(theta1(1) - phi(1))*sin(phi(1)+pi/2);
+% 
+%             newVelocity = [vx, vy]
+% 
+%             particleSystem(i).velocity = newVelocity;
+%             
+%             %     // get the mtd
+%             %     Vector2d delta = (position.subtract(ball.position));
+%             delta = particleSystem(i).position - ball.position;
+%             %     float d = delta.getLength();
+%             d = abs(delta);
+%             d = d(1);
+%             %     // minimum translation distance to push balls apart after intersecting
+%             %     Vector2d mtd = delta.multiply(((getRadius() + ball.getRadius())-d)/d); 
+%             mtd = delta * (((particleSystem(i).radius + ball.radius)-d)/d);
+%             % 
+%             %     // resolve intersection --
+%             %     // inverse mass quantities
+%             %     float im1 = 1 / getMass(); 
+%             %     float im2 = 1 / ball.getMass();
+%             im1 = 1/particleSystem(i).mass;
+%             im2 = 1/ball.mass;
+%             %     // push-pull them apart based off their mass
+%             %     position = position.add(mtd.multiply(im1 / (im1 + im2)));
+%             %     ball.position = ball.position.subtract(mtd.multiply(im2 / (im1 + im2)));
+%             ball.position = ball.position - (mtd * (im2/ (im1 + im2))); 
+%             particleSystem(i).position = particleSystem(i).position + (mtd * (im1/ (im1 + im2)));
+%             
+%             %     // impact speed
+%             %     Vector2d v = (this.velocity.subtract(ball.velocity));
+%             %     float vn = v.dot(mtd.normalize());
+%             v = particleSystem(i).velocity - ball.velocity;
+%             vn = dot(v, (mtd./norm(mtd)));
+%             %     // sphere intersecting but moving away from each other already
+%             %     if (vn > 0.0f) return;
+% %             if vn > 0 
+% %                 return;
+% %             end
+%             %     // collision impulse
+%             %     float i = (-(1.0f + Constants.restitution) * vn) / (im1 + im2);
+%             %     Vector2d impulse = mtd.multiply(i);
+%             restitution = 0;
+%             imp = (-(1.0 + restitution) + vn) / (im1 + im2);
+%             impulse = mtd * imp;
+%             %     // change in momentum
+%             %     this.velocity = this.velocity.add(impulse.multiply(im1));
+%             particleSystem(i).velocity = particleSystem(i).velocity + impulse*im1;
+%             ball.velocity = ball.velocity - impulse*im2;
 
-            vx = ((v1*cos(theta1 - phi)*(m1 - m2) + 2*m2*v2*cos(theta2 - phi))/(m1 + m2))*cos(phi) + v1*sin(theta1 - phi)*cos(phi+pi/2);
-            vx = ((v1*cos(theta1 - phi)*(m1 - m2) + 2*m2*v2*cos(theta2 - phi))/(m1 + m2))*sin(phi) + v1*sin(theta1 - phi)*sin(phi+pi/2);
-
-            newVelocity = [vx, vy];
-
-            particleSystem(i).velocity = newVelocity;
+%             %vector difference = ball2.position - ball1.position
+%             difference = ball.position - particleSystem(i).position;
+%             %float distance = sqrt(difference)
+%             distance = sqrt(difference(1)^2 + difference(2)^2);
+%             
+%             if (distance < (ball.radius + particleSystem(i).radius)) 
+%                 %vector normal = difference / distance
+%                 normal = difference/distance;
+%                 %vector velocityDelta = ball2.velocity - ball1.velocity
+%                 velocityDelta = particleSystem(i).velocity - ball.velocity;
+%                 %float dot = dotProduct(velocityDelta, normal)
+%                 tempDot = dot(velocityDelta, normal);
+%                 if (tempDot > 0) 
+%                     %float coefficient = 0.5
+%                     coefficient = 0.5;
+%                     %float impulseStrength = (1 + coefficient) * dot * (1 / ball1.mass + 1 / ball2.mass)
+%                     impulseStrength = (1 + coefficient) * tempDot * (1 / ball.mass + 1/particleSystem(i).mass);
+%                     %vector impulse = impulseStrength * normal
+%                     impulse = impulseStrength * normal;
+%                     %ball1.velocity -= impulse / ball1.mass
+%                     ball.velocity = ball.velocity - impulse/ball.mass;
+%                     %ball2.velocity += impulse / ball2.mass
+%                     particleSystem(i).velocity = particleSystem(i).velocity - impulse/particleSystem(i).mass;
+%                 
+%                 end
+%             end
+    
+            % Check i overlap
+            firstBall = particleSystem(i);
+            secondBall = ball;
+            if (firstBall.position(1) + firstBall.radius + secondBall.radius > secondBall.position(1) && firstBall.position(1) < secondBall.position(1) + firstBall.radius + secondBall.radius && firstBall.position(2) + firstBall.radius + secondBall.radius > secondBall.position(2) && firstBall.position(2) < seconBall.position(2) + firstBall.radius + secondBall.radius)
+                % overlapping
+                
+                distance = sqrt(((firstBall.position(1) - secondBall.position(1)) * (firstBall.position(1) - secondBall.position(1))) + ((firstBall.position(2) - secondBall.position(2)) * (firstBall.position(2) - secondBall.position(2))));
+                if (distance < firstBall.radius + secondBall.radius)
+                    % balls have collided
+                    
+                    collisionPointX = ((firstBall.position(1) * secondBall.radius) + (secondBall.position(1) * firstBall.radius)) 
+ / (firstBall.radius + secondBall.radius);
+ 
+collisionPointY = 
+ ((firstBall.y * secondBall.radius) + (secondBall.y * firstBall.radius)) 
+ / (firstBall.radius + secondBall.radius);
+                end
+            end
         end
 	end
 end

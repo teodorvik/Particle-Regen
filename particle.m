@@ -3,6 +3,7 @@ classdef particle
         position;
         velocity;
         homePosition;
+        radius;
         mass;
     end
 end
